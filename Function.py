@@ -7,7 +7,7 @@ class Function:
         self.input = input
         x = input.data
         y = self.forward(x)
-        output = Variable(y)
+        output = as_ndarray(Variable(y))
         output.set_creator(self)
         self.output = output
         return output
@@ -17,3 +17,8 @@ class Function:
 
     def backward(self, gy):
         raise NotImplementedError()
+
+def as_ndarray(x):
+    if np.isscalar(x):
+        return np.array(x)
+    return x

@@ -36,12 +36,8 @@ def numerical_diff(f, x, eps=1e-4):
 
     return (y1.data - y0.data) / (2 * eps)
 
-
-x = Variable(np.array(0.5))
-# a = square(x)
-# b = exp(a)
-# y = square(b)
-
+x = Variable(1.0)
+# x = Variable(np.array(0.5))
 y = square(exp(square(x)))
 y.backward()
 
