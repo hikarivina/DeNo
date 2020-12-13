@@ -7,7 +7,7 @@ class Function:
         self.input = input
         x = input.data
         y = self.forward(x)
-        output = as_ndarray(Variable(y))
+        output = Variable(as_ndarray(y))
         output.set_creator(self)
         self.output = output
         return output
