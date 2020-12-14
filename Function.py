@@ -3,14 +3,21 @@ from Variable import Variable
 
 
 class Function:
-    def __call__(self, input):
+    def __call__(self, *inputs):
+
+        xs = [x.data for x in inputs]
+        ys = self.forward(*xs)
+        if not isinstance(ys, tuple):
+            ys = (ys,)
+
+        outputs = [Variable(as_ndarray(y)) for y in ys]
+
+        for output in outputs:
+            output.set_creator(self)
+
         self.input = input
-        x = input.data
-        y = self.forward(x)
-        output = Variable(as_ndarray(y))
-        output.set_creator(self)
-        self.output = output
-        return output
+        self.outputs = outputs
+        return outputs if len(outputs) > 1 else outputs[0]
 
     def forward(self, x):
         raise NotImplementedError()

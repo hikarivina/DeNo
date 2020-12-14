@@ -20,6 +20,11 @@ class Exp(Function):
         gx = np.exp(x) * gy
         return gx
 
+class Add(Function):
+    def forward(self, x0, x1):
+        y = x0 + x1
+        return y
+
 
 def square(x):
     return Square()(x)
@@ -27,21 +32,16 @@ def square(x):
 def exp(x):
     return Exp()(x)
 
-def numerical_diff(f, x, eps=1e-4):
-    x0 = Variable(x.data - eps)
-    x1 = Variable(x.data + eps)
 
-    y0 = f(x0)
-    y1 = f(x1)
-
-    return (y1.data - y0.data) / (2 * eps)
+def add(x0, x1):
+    return Add()(x0, x1)
 
 # x = Variable(1.0)
-x = Variable(np.array(0.5))
-y = square(exp(square(x)))
-y.backward()
+x0 = Variable(np.array(2))
+x1 = Variable(np.array(3))
+y = add(x0, x1)
 
-print(x.grad)
+print(y.data)
 
 
 
